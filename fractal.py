@@ -1,36 +1,37 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
-# Розмір зображення
-width, height = 800, 800
-
-# Діапазон комплексних чисел, які будуть вивчатися
-xmin, xmax = -1, 0.5
-ymin, ymax = -0.25, 0.25
-
-# Створення зображення Множини Мандельброта
 def mandelbrot(c, max_iter):
-    z = c
+    z = 0
     n = 0
-    while abs(z) <= 1 and n < max_iter:
-        z = z * z + c
-        n += 0.5
+    while abs(z) <= 2 and n < max_iter:
+        z = z**2 + c
+        n += 1
     if n == max_iter:
         return 0
-    return n + 1 - np.log(np.log2(abs(z)))
+    return n
 
-# Створення матриці значень для кожної точки на зображенні
-x = np.linspace(xmin, xmax, width)
-y = np.linspace(ymin, ymax, height)
-X, Y = np.meshgrid(x, y)
-Z = X + 1j * Y
-img = np.array([[mandelbrot(c, 100) for c in row] for row in Z])
+def mandelbrot_set(width, height, x_min, x_max, y_min, y_max, max_iter):
+    x = np.linspace(x_min, x_max, width)
+    y = np.linspace(y_min, y_max, height)
+    mandelbrot_image = np.zeros((height, width))
 
-# Відображення зображення за допомогою matplotlib
-plt.figure(figsize=(10, 10))
-plt.imshow(img, extent=(xmin, xmax, ymin, ymax), cmap='hot', interpolation='bilinear')
-plt.colorbar()
-plt.title('Множина Мандельброта')
-plt.xlabel('Re(c)')
-plt.ylabel('Im(c)')
-plt.show()
+    for i in range(height):
+        for j in range(width):
+            mandelbrot_image[i, j] = mandelbrot(complex(x[j], y[i]), max_iter)
+
+    return mandelbrot_image
+
+def plot_mandelbrot(mandelbrot_image, x_min, x_max, y_min, y_max):
+    plt.imshow(mandelbrot_image, extent=(x_min, x_max, y_min, y_max), cmap='Blues_r', interpolation='bilinear')
+    plt.title('Mandelbrot Set')
+    plt.show()
+
+if __name__ == "__main__":
+    width, height = 800, 800
+    x_min, x_max = -2, 1
+    y_min, y_max = -1, 1
+    max_iter = 100
+
+    mandelbrot_image = mandelbrot_set(width, height, x_min, x_max, y_min, y_max, max_iter)
+    plot_mandelbrot(mandelbrot_image, x_min, x_max, y_min, y_max)

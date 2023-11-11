@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-a = int(input())
-x = np.linspace(-a,a,a*2)
+x = np.linspace(-50,50,100)
 y = x**2
 plt.plot(x,y)
 plt.show()
