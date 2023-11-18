@@ -24,7 +24,7 @@ def mandelbrot_set(width, height, x_min, x_max, y_min, y_max, max_iter):
 
 def plot_mandelbrot(mandelbrot_image, x_min, x_max, y_min, y_max):
     plt.imshow(mandelbrot_image, extent=(x_min, x_max, y_min, y_max), cmap='Blues_r', interpolation='bilinear')
-    plt.title('Mandelbrot Set')
+    plt.title('Множина Мандельброта')
     plt.show()
 
 if __name__ == "__main__":
